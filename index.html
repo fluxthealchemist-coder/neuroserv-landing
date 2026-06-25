@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NeuroServ — Unlock The Limitless You</title>
+    <title>NEUROSERV — Unlock The Limitless You</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cinzel+Decorative:wght@700&family=Inter:wght@200;300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Cinzel:wght@400;600;700&family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet">
     <style>
         :root {
             --fire: #E85D3F;
@@ -15,9 +15,13 @@
             --gold: #C9A84C;
             --dark: #07070A;
             --dark-elevated: #0E0E14;
+            --dark-surface: #16161F;
             --text: #F0EBE3;
             --text-dim: #6B6560;
             --cream: #F5F0E8;
+            --border-subtle: rgba(255,255,255,0.05);
+            --border-standard: rgba(255,255,255,0.08);
+            --border-prominent: rgba(255,255,255,0.12);
         }
 
         * {
@@ -31,14 +35,15 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
             background: var(--dark);
             color: var(--text);
             line-height: 1.6;
             overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* ===== CINEMATIC HERO WITH VIDEO ===== */
+        /* ===== CINEMATIC HERO — FULL VIEWPORT ===== */
         .hero-cinematic {
             position: relative;
             height: 100vh;
@@ -48,6 +53,7 @@
             justify-content: center;
             text-align: center;
             overflow: hidden;
+            background: var(--dark);
         }
 
         .hero-video-container {
@@ -56,37 +62,68 @@
             z-index: 0;
         }
 
-        .hero-video-container::before {
+        .hero-video-container video,
+        .hero-video-container .video-fallback {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero-video-container::after {
             content: '';
             position: absolute;
             inset: 0;
             background: 
                 radial-gradient(ellipse at center, transparent 0%, var(--dark) 70%),
-                linear-gradient(180deg, rgba(7,7,10,0.3) 0%, rgba(7,7,10,0.8) 60%, var(--dark) 100%);
+                linear-gradient(180deg, rgba(7,7,10,0.2) 0%, rgba(7,7,10,0.6) 50%, var(--dark) 100%);
             z-index: 1;
         }
 
-        .hero-video-placeholder {
-            width: 100%;
-            height: 100%;
+        .video-fallback {
             background: 
-                radial-gradient(circle at 40% 50%, rgba(120, 80, 160, 0.2) 0%, transparent 50%),
-                radial-gradient(circle at 60% 40%, rgba(232, 93, 63, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 50%, rgba(120, 80, 160, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 60% 40%, rgba(232, 93, 63, 0.1) 0%, transparent 50%),
                 linear-gradient(180deg, #0a0a12 0%, #151520 50%, #0a0a12 100%);
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
-        .hero-video-placeholder::after {
-            content: '▶ Cinematic Video Background';
-            font-family: 'Cinzel', serif;
-            font-size: 1.2rem;
-            color: rgba(255,255,255,0.2);
-            letter-spacing: 0.2em;
-            border: 1px solid rgba(255,255,255,0.1);
-            padding: 1.5rem 3rem;
-            border-radius: 100px;
+        .video-fallback-content {
+            text-align: center;
+            z-index: 2;
+        }
+
+        .play-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 1px solid rgba(201, 168, 76, 0.3);
+            background: rgba(201, 168, 76, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.5s ease;
+            backdrop-filter: blur(10px);
+            margin: 0 auto 2rem;
+        }
+
+        .play-circle:hover {
+            border-color: var(--gold);
+            background: rgba(201, 168, 76, 0.1);
+            transform: scale(1.1);
+            box-shadow: 0 0 80px rgba(201, 168, 76, 0.2);
+        }
+
+        .play-circle::after {
+            content: '';
+            width: 0;
+            height: 0;
+            border-left: 20px solid var(--gold);
+            border-top: 12px solid transparent;
+            border-bottom: 12px solid transparent;
+            margin-left: 5px;
         }
 
         .hero-content {
@@ -98,7 +135,7 @@
 
         .hero-eyebrow {
             font-family: 'Cinzel', serif;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             letter-spacing: 0.5em;
             text-transform: uppercase;
             color: var(--gold);
@@ -109,25 +146,25 @@
 
         .hero h1 {
             font-family: 'Cinzel Decorative', serif;
-            font-size: clamp(3rem, 8vw, 7rem);
+            font-size: clamp(3rem, 8vw, 6.5rem);
             font-weight: 700;
-            line-height: 1;
+            line-height: 1.05;
             margin-bottom: 1.5rem;
-            background: linear-gradient(135deg, var(--cream) 0%, var(--gold) 40%, var(--cream) 100%);
+            background: linear-gradient(135deg, var(--cream) 0%, var(--gold) 50%, var(--cream) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
             opacity: 0;
             animation: fadeInUp 1.2s ease 0.8s forwards;
-            text-shadow: 0 0 80px rgba(201, 168, 76, 0.1);
+            letter-spacing: -0.02em;
         }
 
         .hero-subtitle {
-            font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+            font-size: clamp(1.1rem, 2.5vw, 1.4rem);
             color: var(--text-dim);
-            max-width: 600px;
+            max-width: 550px;
             margin: 0 auto 3rem;
-            font-weight: 200;
+            font-weight: 300;
             line-height: 1.8;
             letter-spacing: 0.02em;
             opacity: 0;
@@ -147,7 +184,7 @@
             padding: 1.2rem 3rem;
             border-radius: 100px;
             font-weight: 400;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             letter-spacing: 0.15em;
             text-transform: uppercase;
             text-decoration: none;
@@ -169,15 +206,15 @@
         }
 
         .btn-ghost {
-            background: transparent;
+            background: rgba(255,255,255,0.03);
             color: var(--text);
             border: 1px solid rgba(255,255,255,0.15);
             backdrop-filter: blur(10px);
         }
 
         .btn-ghost:hover {
-            background: rgba(255,255,255,0.05);
-            border-color: rgba(255,255,255,0.4);
+            background: rgba(255,255,255,0.06);
+            border-color: rgba(255,255,255,0.3);
             transform: translateY(-3px);
         }
 
@@ -219,12 +256,15 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* ===== CINEMATIC SECTIONS ===== */
+        /* ===== CINEMATIC SECTIONS — FULL VIEWPORT ===== */
         .cinematic-section {
             position: relative;
-            padding: 10rem 2rem;
-            max-width: 1400px;
-            margin: 0 auto;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 6rem 2rem;
         }
 
         .cinematic-section-dark {
@@ -244,7 +284,8 @@
         /* ===== SECTION HEADER CINEMATIC ===== */
         .section-header-cinematic {
             text-align: center;
-            margin-bottom: 6rem;
+            margin-bottom: 4rem;
+            max-width: 800px;
         }
 
         .scene-number {
@@ -259,11 +300,12 @@
 
         .cinematic-section h2 {
             font-family: 'Cinzel Decorative', serif;
-            font-size: clamp(2.5rem, 5vw, 4.5rem);
+            font-size: clamp(2.5rem, 5vw, 4rem);
             line-height: 1.1;
             margin-bottom: 1.5rem;
             color: var(--cream);
             font-weight: 700;
+            letter-spacing: -0.02em;
         }
 
         .cinematic-section .section-desc {
@@ -271,7 +313,7 @@
             color: var(--text-dim);
             max-width: 600px;
             margin: 0 auto;
-            font-weight: 200;
+            font-weight: 300;
             line-height: 1.8;
         }
 
@@ -279,16 +321,18 @@
         .mask-grid-cinematic {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 3rem;
-            margin-top: 4rem;
+            gap: 2rem;
+            margin-top: 3rem;
+            max-width: 1200px;
+            width: 100%;
         }
 
         .mask-card-cinematic {
             position: relative;
             padding: 3rem 2rem;
             text-align: center;
-            border: 1px solid rgba(255,255,255,0.05);
-            border-radius: 4px;
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
             background: rgba(255,255,255,0.01);
             transition: all 0.5s ease;
         }
@@ -310,9 +354,12 @@
         }
 
         .mask-card-cinematic:hover {
-            border-color: rgba(255,255,255,0.1);
+            border-color: var(--border-prominent);
             transform: translateY(-10px);
             background: rgba(255,255,255,0.03);
+            box-shadow: 
+                rgba(50,50,93,0.15) 0px 30px 45px -30px,
+                rgba(0,0,0,0.1) 0px 18px 36px -18px;
         }
 
         .mask-icon-cinematic {
@@ -324,7 +371,7 @@
 
         .mask-card-cinematic h3 {
             font-family: 'Cinzel', serif;
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             margin-bottom: 1rem;
             color: var(--cream);
             letter-spacing: 0.05em;
@@ -334,24 +381,28 @@
             font-size: 0.9rem;
             color: var(--text-dim);
             line-height: 1.8;
-            font-weight: 200;
+            font-weight: 300;
         }
 
         /* ===== THE AWAKENING (VIDEO SECTION) ===== */
         .video-showcase {
             position: relative;
             width: 100%;
-            margin: 4rem 0;
+            max-width: 1400px;
+            margin: 3rem auto;
         }
 
         .video-container {
             position: relative;
             width: 100%;
             aspect-ratio: 21/9;
-            background: var(--dark-elevated);
-            border-radius: 8px;
+            background: var(--dark-surface);
+            border-radius: 12px;
             overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.05);
+            border: 1px solid var(--border-standard);
+            box-shadow: 
+                rgba(50,50,93,0.2) 0px 30px 60px -20px,
+                rgba(0,0,0,0.15) 0px 20px 40px -20px;
         }
 
         .video-container::before {
@@ -359,8 +410,8 @@
             position: absolute;
             inset: 0;
             background: 
-                radial-gradient(circle at 30% 50%, rgba(120, 80, 160, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 70% 50%, rgba(232, 93, 63, 0.1) 0%, transparent 50%);
+                radial-gradient(circle at 30% 50%, rgba(120, 80, 160, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 70% 50%, rgba(232, 93, 63, 0.08) 0%, transparent 50%);
             z-index: 1;
         }
 
@@ -376,37 +427,9 @@
             gap: 2rem;
         }
 
-        .play-button {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            border: 2px solid rgba(201, 168, 76, 0.3);
-            background: rgba(201, 168, 76, 0.05);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.4s ease;
-            backdrop-filter: blur(10px);
-        }
-
-        .play-button:hover {
-            border-color: var(--gold);
-            background: rgba(201, 168, 76, 0.1);
-            transform: scale(1.1);
-            box-shadow: 0 0 60px rgba(201, 168, 76, 0.2);
-        }
-
-        .play-button::after {
-            content: '▶';
-            font-size: 2rem;
-            color: var(--gold);
-            margin-left: 5px;
-        }
-
         .video-label {
             font-family: 'Cinzel', serif;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             color: var(--text-dim);
             letter-spacing: 0.2em;
         }
@@ -419,21 +442,26 @@
         .sanctuary-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 6rem;
+            gap: 5rem;
             align-items: center;
-            margin-top: 4rem;
+            margin-top: 3rem;
+            max-width: 1200px;
+            width: 100%;
         }
 
         .sanctuary-visual {
             position: relative;
             aspect-ratio: 4/3;
             background: 
-                radial-gradient(circle at 40% 50%, rgba(120, 80, 160, 0.2) 0%, transparent 60%),
-                radial-gradient(circle at 60% 40%, rgba(232, 93, 63, 0.15) 0%, transparent 60%),
+                radial-gradient(circle at 40% 50%, rgba(120, 80, 160, 0.15) 0%, transparent 60%),
+                radial-gradient(circle at 60% 40%, rgba(232, 93, 63, 0.1) 0%, transparent 60%),
                 linear-gradient(135deg, #0d0d1a 0%, #1a1a2e 50%, #16213e 100%);
-            border-radius: 8px;
-            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 12px;
+            border: 1px solid var(--border-standard);
             overflow: hidden;
+            box-shadow: 
+                rgba(50,50,93,0.15) 0px 30px 60px -20px,
+                rgba(0,0,0,0.1) 0px 20px 40px -20px;
         }
 
         .sanctuary-visual::after {
@@ -445,14 +473,14 @@
             justify-content: center;
             font-family: 'Cinzel', serif;
             font-size: 1.5rem;
-            color: rgba(255,255,255,0.15);
+            color: rgba(255,255,255,0.1);
             letter-spacing: 0.3em;
         }
 
         .sanctuary-features {
             display: flex;
             flex-direction: column;
-            gap: 2.5rem;
+            gap: 2rem;
         }
 
         .sanctuary-feature {
@@ -460,13 +488,14 @@
             gap: 1.5rem;
             align-items: flex-start;
             padding: 1.5rem;
-            border-left: 1px solid rgba(255,255,255,0.05);
+            border-left: 1px solid var(--border-subtle);
             transition: all 0.3s ease;
         }
 
         .sanctuary-feature:hover {
             border-left-color: var(--gold);
             background: rgba(255,255,255,0.02);
+            border-radius: 0 8px 8px 0;
         }
 
         .sanctuary-feature-icon {
@@ -487,30 +516,34 @@
             font-size: 0.9rem;
             color: var(--text-dim);
             line-height: 1.7;
-            font-weight: 200;
+            font-weight: 300;
         }
 
         /* ===== FOUR REALMS ===== */
         .realms-section {
-            padding: 10rem 2rem;
+            padding: 6rem 2rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
         .realms-grid-cinematic {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 2rem;
-            margin-top: 5rem;
+            gap: 1.5rem;
+            margin-top: 3rem;
             max-width: 1400px;
-            margin-left: auto;
-            margin-right: auto;
+            width: 100%;
         }
 
         .realm-card-cinematic {
             position: relative;
-            padding: 3rem 1.5rem;
+            padding: 2.5rem 1.5rem;
             text-align: center;
-            border: 1px solid rgba(255,255,255,0.04);
-            border-radius: 4px;
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
             background: rgba(255,255,255,0.01);
             transition: all 0.5s ease;
             overflow: hidden;
@@ -538,8 +571,11 @@
 
         .realm-card-cinematic:hover {
             transform: translateY(-15px);
-            border-color: rgba(255,255,255,0.1);
+            border-color: var(--border-prominent);
             background: rgba(255,255,255,0.03);
+            box-shadow: 
+                rgba(50,50,93,0.15) 0px 30px 60px -20px,
+                rgba(0,0,0,0.1) 0px 20px 40px -20px;
         }
 
         .realm-number {
@@ -547,13 +583,13 @@
             font-size: 0.7rem;
             letter-spacing: 0.3em;
             color: var(--text-dim);
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
             opacity: 0.5;
         }
 
         .realm-icon-cinematic {
-            font-size: 3.5rem;
-            margin-bottom: 1.5rem;
+            font-size: 3rem;
+            margin-bottom: 1rem;
             display: block;
             transition: transform 0.5s ease;
         }
@@ -564,8 +600,8 @@
 
         .realm-card-cinematic h3 {
             font-family: 'Cinzel Decorative', serif;
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
+            font-size: 1.4rem;
+            margin-bottom: 0.75rem;
         }
 
         .realm-card-cinematic.fire h3 { color: var(--fire); }
@@ -577,14 +613,19 @@
             font-size: 0.85rem;
             color: var(--text-dim);
             line-height: 1.8;
-            font-weight: 200;
+            font-weight: 300;
         }
 
         /* ===== FINAL CTA ===== */
         .final-cta {
             position: relative;
-            padding: 12rem 2rem;
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             text-align: center;
+            padding: 6rem 2rem;
             background: 
                 radial-gradient(ellipse at center, rgba(201, 168, 76, 0.05) 0%, transparent 60%),
                 var(--dark);
@@ -603,7 +644,7 @@
             max-width: 500px;
             margin: 0 auto 3rem;
             font-size: 1.1rem;
-            font-weight: 200;
+            font-weight: 300;
             line-height: 1.8;
         }
 
@@ -616,7 +657,7 @@
         footer {
             text-align: center;
             padding: 4rem 2rem;
-            border-top: 1px solid rgba(255,255,255,0.03);
+            border-top: 1px solid var(--border-subtle);
             background: var(--dark);
         }
 
@@ -642,7 +683,56 @@
             opacity: 0.5;
         }
 
-        /* ===== ANIMATIONS ===== */
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1024px) {
+            .mask-grid-cinematic {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .realms-grid-cinematic {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .sanctuary-grid {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+            .video-container {
+                aspect-ratio: 16/9;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .cinematic-section {
+                min-height: auto;
+                padding: 4rem 1.5rem;
+            }
+            .mask-grid-cinematic {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            .realms-grid-cinematic {
+                grid-template-columns: 1fr;
+            }
+            .hero-cta {
+                flex-direction: column;
+                align-items: center;
+            }
+            .btn {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+            .play-circle {
+                width: 80px;
+                height: 80px;
+            }
+            .play-circle::after {
+                border-left-width: 14px;
+                border-top-width: 9px;
+                border-bottom-width: 9px;
+            }
+        }
+
+        /* ===== SCROLL REVEAL ===== */
         .reveal {
             opacity: 0;
             transform: translateY(50px);
@@ -658,53 +748,20 @@
         .reveal-delay-2 { transition-delay: 0.2s; }
         .reveal-delay-3 { transition-delay: 0.3s; }
         .reveal-delay-4 { transition-delay: 0.4s; }
-
-        /* ===== RESPONSIVE ===== */
-        @media (max-width: 1024px) {
-            .mask-grid-cinematic {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .realms-grid-cinematic {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .sanctuary-grid {
-                grid-template-columns: 1fr;
-                gap: 3rem;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .cinematic-section {
-                padding: 6rem 1.5rem;
-            }
-            .mask-grid-cinematic {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-            .realms-grid-cinematic {
-                grid-template-columns: 1fr;
-            }
-            .hero-cta {
-                flex-direction: column;
-                align-items: center;
-            }
-            .btn {
-                width: 100%;
-                max-width: 300px;
-                justify-content: center;
-            }
-            .video-container {
-                aspect-ratio: 16/9;
-            }
-        }
     </style>
 </head>
 <body>
 
-    <!-- HERO CINEMATIC -->
+    <!-- HERO CINEMATIC — FULL VIEWPORT VIDEO BACKGROUND -->
     <section class="hero-cinematic">
         <div class="hero-video-container">
-            <div class="hero-video-placeholder"></div>
+            <!-- Replace with actual video when ready -->
+            <div class="video-fallback">
+                <div class="video-fallback-content">
+                    <div class="play-circle"></div>
+                    <div class="video-label"><span>Cinematic Trailer</span> — Coming Soon</div>
+                </div>
+            </div>
         </div>
         <div class="hero-content">
             <div class="hero-eyebrow">A Wellness Transformation Journey</div>
@@ -724,7 +781,7 @@
         </div>
     </section>
 
-    <!-- SCENE 1: THE MASK -->
+    <!-- SCENE 1: THE MASK — FULL VIEWPORT -->
     <section class="cinematic-section" id="mask">
         <div class="section-header-cinematic reveal">
             <div class="scene-number">Scene I — The Hidden Burden</div>
@@ -755,7 +812,7 @@
 
     <div class="scene-transition"></div>
 
-    <!-- SCENE 2: THE AWAKENING (VIDEO) -->
+    <!-- SCENE 2: THE AWAKENING — VIDEO SECTION -->
     <section class="cinematic-section cinematic-section-dark" id="awakening">
         <div class="section-header-cinematic reveal">
             <div class="scene-number">Scene II — The Awakening</div>
@@ -767,7 +824,7 @@
         <div class="video-showcase reveal">
             <div class="video-container">
                 <div class="video-placeholder-content">
-                    <div class="play-button"></div>
+                    <div class="play-circle"></div>
                     <div class="video-label">Watch the <span>Cinematic Trailer</span></div>
                 </div>
             </div>
@@ -776,7 +833,7 @@
 
     <div class="scene-transition-reverse"></div>
 
-    <!-- SCENE 3: THE SANCTUARY -->
+    <!-- SCENE 3: THE SANCTUARY — FULL VIEWPORT -->
     <section class="cinematic-section" id="sanctuary">
         <div class="section-header-cinematic reveal">
             <div class="scene-number">Scene III — The Sanctuary</div>
@@ -821,7 +878,7 @@
         </div>
     </section>
 
-    <!-- SCENE 4: THE REALMS -->
+    <!-- SCENE 4: THE REALMS — FULL VIEWPORT -->
     <section class="realms-section cinematic-section-dark" id="realms">
         <div class="section-header-cinematic reveal">
             <div class="scene-number">Scene IV — Choose Your Path</div>
@@ -859,7 +916,7 @@
         </div>
     </section>
 
-    <!-- FINAL CTA -->
+    <!-- FINAL CTA — FULL VIEWPORT -->
     <section class="final-cta" id="journey">
         <div class="reveal">
             <h2>Your Mind Is Not Your Enemy.<br>It Is Your Greatest Ally.</h2>
